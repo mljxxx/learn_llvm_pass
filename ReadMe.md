@@ -27,4 +27,6 @@ output new IR
 ```
 opt --load-pass-plugin ../build/libHelloWorld.dylib --passes=HelloWorld -S -o test_new.ll test.ll
 clang -fpass-plugin=../build/libHelloWorld.dylib -S -emit-llvm -o test_new.ll test.cpp
+//let cl::opt work
+clang -Xclang -load -Xclang ../build/libReplaceAdd.dylib -fpass-plugin=../build/libHelloWorld.dylib -S -emit-llvm -o test_new.ll test.cpp
 ```
