@@ -1,4 +1,3 @@
-
 emit readable IR
 ```
 clang -emit-llvm -S -o test.ll test.cpp
@@ -29,4 +28,8 @@ opt --load-pass-plugin ../build/libHelloWorld.dylib --passes=HelloWorld -S -o te
 clang -fpass-plugin=../build/libHelloWorld.dylib -S -emit-llvm -o test_new.ll test.cpp
 //let cl::opt work
 clang -Xclang -load -Xclang ../build/libReplaceAdd.dylib -fpass-plugin=../build/libHelloWorld.dylib -S -emit-llvm -o test_new.ll test.cpp
+```
+output object file
+```
+clang -c test.cpp -o test.o
 ```

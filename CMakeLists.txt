@@ -16,3 +16,7 @@ target_link_libraries(HelloWorld "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_loo
 add_library(ReplaceAdd SHARED ReplaceAdd.cpp)
 target_include_directories(ReplaceAdd PUBLIC "${LLVM_INCLUDE_DIRS}")
 target_link_libraries(ReplaceAdd "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>")
+
+add_library(InjectFuncCall SHARED InjectFuncCall.cpp)
+target_include_directories(InjectFuncCall PUBLIC "${LLVM_INCLUDE_DIRS}")
+target_link_libraries(InjectFuncCall "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>")
