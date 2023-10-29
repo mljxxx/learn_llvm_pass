@@ -2,7 +2,6 @@
 #include <llvm/Passes/PassPlugin.h>
 #include <llvm/Support/raw_ostream.h>
 
-static llvm::cl::opt<bool,false> enable_add_sub("enable-add-sub", llvm::cl::desc("pass variable"), llvm::cl::value_desc("pass variable"));
 namespace {
     using namespace llvm;
     struct HelloWorld : PassInfoMixin<HelloWorld> {

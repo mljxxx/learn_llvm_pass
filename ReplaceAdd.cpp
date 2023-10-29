@@ -2,13 +2,13 @@
 #include <llvm/Passes/PassPlugin.h>
 #include <llvm/Support/raw_ostream.h>
 
-static llvm::cl::opt<bool,false> enable_add_sub("enable-add-to-sub", llvm::cl::desc("pass variable"), llvm::cl::value_desc("pass variable"));
+static llvm::cl::opt<bool> enable_add_to_sub("enable-add-to-sub", llvm::cl::desc("pass variable"), llvm::cl::value_desc("pass variable"));
 
 namespace {
     using namespace llvm;
-    struct HelloWorld : PassInfoMixin<HelloWorld> {
+    struct ReplaceAdd : PassInfoMixin<ReplaceAdd> {
         PreservedAnalyses run(Function &F,FunctionAnalysisManager &) {
-            if(enable_add_sub) {
+            if(enable_add_to_sub) {
                 for(auto &BB : F) {
                     for(BasicBlock::iterator iterator = BB.begin();iterator!=BB.end();) {
                         Instruction& ins = *iterator;
@@ -41,8 +41,17 @@ llvmGetPassPluginInfo() {
       LLVM_PLUGIN_API_VERSION, "ReplaceAdd", LLVM_VERSION_STRING,
           [](PassBuilder &PB) {
             PB.registerOptimizerEarlyEPCallback([](ModulePassManager &MPM, OptimizationLevel level) {
-                MPM.addPass(createModuleToFunctionPassAdaptor(HelloWorld()));
+                MPM.addPass(createModuleToFunctionPassAdaptor(ReplaceAdd()));
             });
+            // PB.registerPipelineParsingCallback(
+            //     [](StringRef Name, FunctionPassManager &FPM,
+            //         ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
+            //         if(Name.equals("ReplaceAdd")) {
+            //             FPM.addPass(ReplaceAdd());
+            //             return true;
+            //         }
+            //         return false;
+            // });
           }
     };
 }
